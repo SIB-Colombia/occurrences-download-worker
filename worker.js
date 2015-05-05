@@ -136,7 +136,7 @@ function processDownload(message) {
         var mailOptions = {
           from: 'SIB Colombia <sib+downloads@humboldt.org.co>', // sender address
           to: request.email+' <'+request.email+'>', // list of receivers
-          subject: 'Datos de SIB Colombia disponibles para descarga', // Subject line
+          subject: 'Su consulta en la red del SIB esta disponible para descarga', // Subject line
           html: '<p>La solicitud que realizó mediante la plataformaa de SIB Colombia no arrojó ningún registro que cumpla con sus condiciones de búsqueda.</p><p>Le invitamos a cambiar los parámetros de búsqueda en: <a href="http://data.sibcolombia.net">http://data.sibcolombia.net</a> o <a href="http://maps.sibcolombia.net">http://maps.sibcolombia.net</a></p><p>Gracias por usar nuestro sistema de información</p>' // html body
         };
         fs.unlinkSync(destinationFile+'.zip');
@@ -145,7 +145,7 @@ function processDownload(message) {
         var mailOptions = {
           from: 'SIB Colombia <sib+downloads@humboldt.org.co>', // sender address
           to: request.email+' <'+request.email+'>', // list of receivers
-          subject: 'Datos de SIB Colombia disponibles para descarga', // Subject line
+          subject: 'Su consulta en la red del SIB esta disponible para descarga', // Subject line
           html: '<p>Los datos consultados en la plataforma de SIB Colombia estan disponibles para descarga.</p><p>Puede descargar el archivo en la siguiente dirección: </br></br> <a href="'+downloadURL+fileName+'.zip'+'">'+downloadURL+fileName+'.zip</a><p>Detalles del archivo:</p><p><ul><li>Fecha de generación: '+moment().format('LLLL')+'</li><li>Registros incluidos: '+(totalRegisters-1)+'</li><li>Tamaño de archivo: '+Number((fileSizeInMegabytes).toFixed(2))+' MB</li></ul></p><p>Gracias por usar nuestro sistema de información</p>' // html body
         };
       }
