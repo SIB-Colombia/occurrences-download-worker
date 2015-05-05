@@ -14,3 +14,7 @@ iojs app.js
 
 ###Note
 You must define environment vars for username and password for the email account that will be used for notification.
+
+#### Required environment vars
+- DOWNLOAD_GMAIL_USER
+- DOWNLOAD_GMAIL_PASSWORD
