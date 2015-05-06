@@ -16,5 +16,8 @@ iojs app.js
 You must define environment vars for username and password for the email account that will be used for notification.
 
 #### Required environment vars
-- DOWNLOAD_GMAIL_USER
-- DOWNLOAD_GMAIL_PASSWORD
+- DOWNLOAD_GMAIL_USER: username of the email account used for email notification
+- DOWNLOAD_GMAIL_PASSWORD: password of the email account used for email notification
+- DOWNLOAD_CSV_DELIMITER: Kind of delimiter used for separated file creation (tab or comma)
+- DOWNLOAD_LOCAL_FOLDER: Local folder where the compressed file is saved
+- DOWNLOAD_WEB_FOLDER: URL of file download location
