@@ -27,8 +27,8 @@ logger = new (winston.Logger)({
     ]
 });
 
-var locationSaveFolder = "/home/valentina/Desktop/humboldt/dataportal-explorer/public/downloads/";
-var downloadURL = "http://maps.sibcolombia.net/downloads/";
+var locationSaveFolder = process.env.DOWNLOAD_LOCAL_FOLDER;
+var downloadURL = process.env.DOWNLOAD_WEB_FOLDER;
 
 var kafka = require('kafka-node'),
     Consumer = kafka.Consumer,
@@ -77,7 +77,7 @@ function processDownload(message) {
   var rs = new ReadableSearch(searchExec);
 
   var formatStream = csv
-    .createWriteStream({headers: true})
+    .createWriteStream({headers: true, delimiter: ((process.env.DOWNLOAD_CSV_DELIMITER == 'tab') ? '\t' : ',')})
     .transform(function(obj){
       return {
         "Publicador de datos": obj._source.provider.name,
@@ -160,7 +160,7 @@ function processDownload(message) {
       });
     });
     archive.pipe(output);
-    archive.file(destinationFile+'.csv', { name: fileName+'.csv' });
+    archive.file(destinationFile+'.csv', { name: fileName+'/'+fileName+'.csv' });
     archive.finalize();
   });
 
