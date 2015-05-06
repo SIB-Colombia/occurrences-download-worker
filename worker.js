@@ -72,7 +72,7 @@ function processDownload(message) {
   };
 
   var fileName = "occurrence-search-"+message.offset+"-"+Date.now();
-  var destinationFile = locationSaveFolder+fileName;
+  var destinationFile = locationSaveFolder+'/'+fileName;
   var writableStream = fs.createWriteStream(destinationFile+".csv", {encoding: "utf8"});
   var rs = new ReadableSearch(searchExec);
 
@@ -146,7 +146,7 @@ function processDownload(message) {
           from: 'SIB Colombia <sib+downloads@humboldt.org.co>', // sender address
           to: request.email+' <'+request.email+'>', // list of receivers
           subject: 'Su consulta en la red del SIB esta disponible para descarga', // Subject line
-          html: '<p>Los datos consultados en la plataforma de SIB Colombia estan disponibles para descarga.</p><p>Puede descargar el archivo en la siguiente dirección: </br></br> <a href="'+downloadURL+fileName+'.zip'+'">'+downloadURL+fileName+'.zip</a><p>Detalles del archivo:</p><p><ul><li>Fecha de generación: '+moment().format('LLLL')+'</li><li>Registros incluidos: '+(totalRegisters-1)+'</li><li>Tamaño de archivo: '+Number((fileSizeInMegabytes).toFixed(2))+' MB</li></ul></p><p>Gracias por usar nuestro sistema de información</p>' // html body
+          html: '<p>Los datos consultados en la plataforma de SIB Colombia estan disponibles para descarga.</p><p>Puede descargar el archivo en la siguiente dirección: </br></br> <a href="'+downloadURL+'/'+fileName+'.zip'+'">'+downloadURL+'/'+fileName+'.zip</a><p>Detalles del archivo:</p><p><ul><li>Fecha de generación: '+moment().format('LLLL')+'</li><li>Registros incluidos: '+(totalRegisters-1)+'</li><li>Tamaño de archivo: '+Number((fileSizeInMegabytes).toFixed(2))+' MB</li></ul></p><p>Gracias por usar nuestro sistema de información</p>' // html body
         };
       }
 
