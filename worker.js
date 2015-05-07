@@ -85,7 +85,7 @@ function processDownload(message) {
 
   var fileName = "occurrence-search-"+message.offset+"-"+Date.now();
   var destinationFile = locationSaveFolder+'/'+fileName;
-  var writableStream = fs.createWriteStream(destinationFile+".csv", {encoding: "utf8"});
+  var writableStream = fs.createWriteStream(destinationFile+".txt", {encoding: "utf8"});
   var rs = new ReadableSearch(searchExec);
 
   var formatStream = csv
@@ -135,7 +135,7 @@ function processDownload(message) {
     var output = fs.createWriteStream(destinationFile+'.zip');
 
     output.on("finish", function() {
-      fs.unlinkSync(destinationFile+'.csv');
+      fs.unlinkSync(destinationFile+'.txt');
 
       moment.locale('es'); // change the global locale to Spanish
       var stats = fs.statSync(destinationFile+'.zip')
@@ -172,7 +172,7 @@ function processDownload(message) {
       });
     });
     archive.pipe(output);
-    archive.file(destinationFile+'.csv', { name: fileName+'/'+fileName+'.csv' });
+    archive.file(destinationFile+'.txt', { name: fileName+'/'+fileName+'.txt' });
     archive.finalize();
   });
 
