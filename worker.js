@@ -73,6 +73,7 @@ function processDownload(message) {
   var offset = 0;
   var limit  = 10000000;
   var page   = 2000;
+  var dataSets = {};
 
   var searchExec = function searchExec(from, callback) {
     client.search({
@@ -131,6 +132,18 @@ function processDownload(message) {
     });
 
   writableStream.on("finish", function() {
+    var rightsText = "Por favor respete los derechos y permisos declarados para cada conjunto de datos en esta descarga:\n";
+    for (var property in dataSets) {
+      if(dataSets[property].rights) {
+        rightsText = rightsText + "\nConjunto de datos: "+property+", http://data.sibcolombia.net/datasets/resource/"+dataSets[property].id+"\n"+"Derechos: "+dataSets[property].rights+"\n";
+      }
+    }
+    var citationText = "Favor citar estos datos como sigue a continuación:\n";
+    for (var property in dataSets) {
+      if(dataSets[property].citation) {
+        citationText = citationText + "\nConjunto de datos: "+property+"\nCómo citar: "+dataSets[property].citation+"\n";
+      }
+    }
     var archive = archiver('zip');
     var output = fs.createWriteStream(destinationFile+'.zip');
 
@@ -158,7 +171,7 @@ function processDownload(message) {
           from: 'SIB Colombia <sib+downloads@humboldt.org.co>', // sender address
           to: request.email+' <'+request.email+'>', // list of receivers
           subject: 'Su consulta en la red del SIB esta disponible para descarga', // Subject line
-          html: '<p>Los datos consultados en la plataforma de SIB Colombia estan disponibles para descarga.</p><p>Puede descargar el archivo en la siguiente dirección: </br></br> <a href="'+downloadURL+'/'+fileName+'.zip'+'">'+downloadURL+'/'+fileName+'.zip</a><p>Detalles del archivo:</p><p><ul><li>Fecha de generación: '+moment().format('LLLL')+'</li><li>Registros incluidos: '+(totalRegisters-1)+'</li><li>Tamaño de archivo: '+Number((fileSizeInMegabytes).toFixed(2))+' MB</li></ul></p><p>Gracias por usar nuestro sistema de información</p>' // html body
+          html: '<p>Los datos consultados en la plataforma de SIB Colombia estan disponibles para descarga.</p><p>Puede descargar el archivo en la siguiente dirección: </br></br> <a href="'+downloadURL+'/'+fileName+'.zip'+'">'+downloadURL+'/'+fileName+'.zip</a><p>Detalles del archivo:</p><p><ul><li>Fecha de generación: '+moment().format('LLLL')+'</li><li>Registros incluidos: '+totalRegisters+'</li><li>Tamaño de archivo: '+Number((fileSizeInMegabytes).toFixed(2))+' MB</li></ul></p><p>Gracias por usar nuestro sistema de información</p>' // html body
         };
       }
 
@@ -172,14 +185,22 @@ function processDownload(message) {
       });
     });
     archive.pipe(output);
+    archive.append(rightsText, { name: fileName+'/rights.txt' });
+    archive.append(citationText, { name: fileName+'/citation.txt' });
     archive.file(destinationFile+'.txt', { name: fileName+'/'+fileName+'.txt' });
     archive.finalize();
   });
 
-  rs.pipe(formatStream).pipe(es.map(function (data, callback) {
+  rs.on("data", function(data) {
     totalRegisters++;
-    callback(null,data);
-  })).pipe(writableStream);
+    dataSets[data._source.resource.name] = {
+      "rights": data._source.resource.rights,
+      "id": data._source.resource.id,
+      "citation": data._source.resource.citation
+    }
+  });
+
+  rs.pipe(formatStream).pipe(writableStream);
 };
 
 // Returns cell stats with search conditions
@@ -189,6 +210,8 @@ function createQuery(queryType, conditions) {
       "provider.name",
       "resource.name",
       "resource.rights",
+      "resource.id",
+      "resource.citation",
       "occurrence_date",
       "institution.code",
       "collection.code",
