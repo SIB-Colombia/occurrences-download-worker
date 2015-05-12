@@ -99,7 +99,7 @@ function processDownload(message) {
         "Fecha del evento": obj._source.occurrence_date,
         "Código de la institución": obj._source.institution.code,
         "Código de la colección": obj._source.collection.code,
-        "Base del registro": obj._source.basis_of_record.name_spanish,
+        "Base del registro": ((obj._source.basis_of_record.name_spanish) ? obj._source.basis_of_record.name_spanish : "Registro Biológico"),
         "Occurrence_id": obj._source.id,
         "Nombre científico": obj._source.canonical,
         "Autor": obj._source.taxon_name_author,
