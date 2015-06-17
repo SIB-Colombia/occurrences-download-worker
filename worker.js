@@ -66,7 +66,8 @@ function processDownload(message) {
   var client = elasticsearch.Client({
     hosts: [
       'localhost:9200'
-    ]
+    ],
+    requestTimeout: 60000
   });
 
   var totalRegisters = 0;
