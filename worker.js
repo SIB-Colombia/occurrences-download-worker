@@ -135,13 +135,13 @@ function processDownload(message) {
     var rightsText = "Por favor respete los derechos y permisos declarados para cada conjunto de datos en esta descarga:\n";
     for (var property in dataSets) {
       if(dataSets[property].rights) {
-        rightsText = rightsText + "\nConjunto de datos: "+property+", http://data.sibcolombia.net/datasets/resource/"+dataSets[property].id+"\n"+"Derechos: "+dataSets[property].rights+"\n";
+        rightsText = rightsText + "\nConjunto de datos: "+property+", http://data.sibcolombia.net/datasets/resource/"+dataSets[property].id+"\n"+"Licencia de uso: "+dataSets[property].rights+"\n";
       }
     }
-    var citationText = "Favor citar estos datos como sigue a continuación:\n";
+    var citationText = "";
     for (var property in dataSets) {
       if(dataSets[property].citation) {
-        citationText = citationText + "\nConjunto de datos: "+property+"\nCómo citar: "+dataSets[property].citation+"\n";
+        citationText = citationText + "\nConjunto de datos: "+property+"\n\nPor favor citar estos datos de la siguiente manera:: "+dataSets[property].citation+"\n\n\n";
       }
     }
     var archive = archiver('zip');
@@ -193,10 +193,12 @@ function processDownload(message) {
 
   rs.on("data", function(data) {
     totalRegisters++;
-    dataSets[data._source.resource.name] = {
-      "rights": data._source.resource.rights,
-      "id": data._source.resource.id,
-      "citation": data._source.resource.citation
+    if(data._source.resource) {
+      dataSets[data._source.resource.name] = {
+        "rights": data._source.resource.rights,
+        "id": data._source.resource.id,
+        "citation": data._source.resource.citation
+      }
     }
   });
 
