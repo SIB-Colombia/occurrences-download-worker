@@ -157,6 +157,8 @@ function processDownload(message) {
       //Convert the file size to megabytes (optional)
       var fileSizeInMegabytes = fileSizeInBytes / 1000000.0
 
+      logger.info('Download request success', {email: request.email, totalRegisters: totalRegisters, requestDate: request.date, processFinishDate: Date.now()/1000, pid: process.pid, fileSize: Number((fileSizeInBytes / 1000.0).toFixed(2)), type: request.type, query: request.query, reason: request.reason, remoteip: request.remoteip});
+
       if(totalRegisters == 0) {
         // setup e-mail data with unicode symbols
         var mailOptions = {
@@ -179,12 +181,15 @@ function processDownload(message) {
       // send mail with defined transport object
       transporter.sendMail(mailOptions, function(error, info){
         if(error){
-          logger.log('Error sending email: ', {email: request.email, timestamp: Date.now(), pid: process.pid});;
-        }else{
-          logger.info('Email message sent with generated download: ', {email: request.email, totalRegisters: totalRegisters, timestamp: Date.now(), pid: process.pid});
+          logger.warn('Error sending email', {email: request.email, totalRegisters: totalRegisters, requestDate: request.date, processFinishDate: Date.now()/1000, pid: process.pid, fileSize: Number((fileSizeInBytes / 1000.0).toFixed(2)), type: request.type, query: request.query, reason: request.reason, remoteip: request.remoteip});
         }
       });
     });
+
+    output.on("error", function(error) {
+      logger.error('Download request error', {email: request.email, totalRegisters: totalRegisters, requestDate: request.date, processFinishDate: Date.now()/1000, pid: process.pid, fileSize: Number((fileSizeInBytes / 1000.0).toFixed(2)), type: request.type, query: request.query, reason: request.reason, error: error, remoteip: request.remoteip});
+    });
+
     archive.pipe(output);
     archive.append(rightsText, { name: fileName+'/rights.txt' });
     archive.append(citationText, { name: fileName+'/citation.txt' });
@@ -201,6 +206,10 @@ function processDownload(message) {
         "citation": data._source.resource.citation
       }
     }
+  });
+
+  rs.on("error", function(error) {
+    logger.error('Download request error: ', {email: request.email, totalRegisters: totalRegisters, requestDate: request.date, processFinishDate: Date.now()/1000, pid: process.pid, fileSize: Number((fileSizeInBytes / 1000.0).toFixed(2)), type: request.type, query: request.query, reason: request.reason, error: error, remoteip: request.remoteip});
   });
 
   rs.pipe(formatStream).pipe(writableStream);
