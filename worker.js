@@ -150,7 +150,10 @@ function processDownload(message) {
 
       moment.locale('es'); // change the global locale to Spanish
       var stats = fs.statSync(destinationFile+'.zip')
-      var fileSizeInBytes = stats["size"]
+      var fileSizeInBytes = 0;
+      if(typeof stats["size"] !== "undefined") {
+        fileSizeInBytes = stats["size"];
+      }
       //Convert the file size to megabytes (optional)
       var fileSizeInMegabytes = fileSizeInBytes / 1000000.0
 
