@@ -71,6 +71,7 @@ function processDownload(message) {
   });
 
   var totalRegisters = 0;
+  var fileSizeInBytes = 0;
   var offset = 0;
   var limit  = 10000000;
   var page   = 2000;
@@ -150,7 +151,6 @@ function processDownload(message) {
 
       moment.locale('es'); // change the global locale to Spanish
       var stats = fs.statSync(destinationFile+'.zip')
-      var fileSizeInBytes = 0;
       if(typeof stats["size"] !== "undefined") {
         fileSizeInBytes = stats["size"];
       }
@@ -187,7 +187,6 @@ function processDownload(message) {
     });
 
     output.on("error", function(error) {
-      var fileSizeInBytes = 0;
       logger.error('Download request error', {email: request.email, totalRegisters: totalRegisters, requestDate: request.date, processFinishDate: Date.now()/1000, pid: process.pid, fileSize: Number((fileSizeInBytes / 1000.0).toFixed(2)), type: request.type, query: request.query, reason: request.reason, error: error, remoteip: request.remoteip});
     });
 
