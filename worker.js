@@ -248,7 +248,7 @@ function createQuery(queryType, conditions) {
   //console.log(conditions);
 
   var query = {
-    "fields": [
+    "stored_fields": [
       "provider.name",
       "resource.name",
       "resource.intellectual_rights",
