@@ -15,7 +15,7 @@
     "kafka-node": "^1.0.5",
     "moment": "^2.15.2",
     "nodemailer": "^2.6.4",
-    "pm2": "^2.0.19",
+    "pm2": "^2.1.4",
     "underscore": "^1.8.3",
     "winston": "^2.3.0"
   }

@@ -104,37 +104,37 @@ function processDownload(message) {
     .createWriteStream({headers: true, delimiter: ((process.env.DOWNLOAD_CSV_DELIMITER == 'tab') ? '\t' : ',')})
     .transform(function(obj){
       return {
-        "Occurrence_id": (typeof(obj.fields['occurrenceid']) != "undefined") ? obj.fields['occurrenceid'][0] : "",
-        "Publicador de datos": (typeof(obj.fields['provider.name']) != "undefined") ? obj.fields['provider.name'][0] : "",
-        "Base del registro": (typeof(obj.fields['basis_of_record.name']) != "undefined") ? obj.fields['basis_of_record.name'][0] : "",
-        "Conjunto de datos": (typeof(obj.fields['resource.name']) != "undefined") ? obj.fields['resource.name'][0] : "",
-        "Fecha de publicación": (typeof(obj.fields['resource.publication_date']) != "undefined") ? obj.fields['resource.publication_date'][0] : "",
-        "Nombre científico": (typeof(obj.fields['canonical']) != "undefined") ? obj.fields['canonical'][0] : "",
-        "Reino": (typeof(obj.fields['taxonomy.kingdom_name']) != "undefined") ? obj.fields['taxonomy.kingdom_name'][0] : "",
-        "Filo": (typeof(obj.fields['taxonomy.phylum_name']) != "undefined") ? obj.fields['taxonomy.phylum_name'][0] : "",
-        "Clase": (typeof(obj.fields['taxonomy.class_name']) != "undefined") ? obj.fields['taxonomy.class_name'][0] : "",
-        "Orden": (typeof(obj.fields['taxonomy.order_name']) != "undefined") ? obj.fields['taxonomy.order_name'][0] : "",
-        "Familia": (typeof(obj.fields['taxonomy.family_name']) != "undefined") ? obj.fields['taxonomy.family_name'][0] : "",
-        "Género": (typeof(obj.fields['taxonomy.genus_name']) != "undefined") ? obj.fields['taxonomy.genus_name'][0] : "",
-        "Especie": (typeof(obj.fields['taxonomy.species_name']) != "undefined") ? obj.fields['taxonomy.species_name'][0] : "",
-        "Epíteto específico": (typeof(obj.fields['taxonomy.specific_epithet']) != "undefined") ? obj.fields['taxonomy.specific_epithet'][0] : "",
-        "Epíteto infraespecífico": (typeof(obj.fields['taxonomy.infraspecific_epithet']) != "undefined") ? obj.fields['taxonomy.infraspecific_epithet'][0] : "",
-        "Categoría taxonómica": (typeof(obj.fields['taxon_rank']) != "undefined") ? obj.fields['taxon_rank'][0] : "",
-        "País": (typeof(obj.fields['country_name']) != "undefined") ? obj.fields['country_name'][0] : "",
-        "Departamento": (typeof(obj.fields['department_name']) != "undefined") ? obj.fields['department_name'][0] : "",
-        "Municipio": (typeof(obj.fields['county_name']) != "undefined") ? obj.fields['county_name'][0] : "",
-        "Localidad": (typeof(obj.fields['locality']) != "undefined") ? obj.fields['locality'][0] : "",
-        "Latitud": (typeof(obj.fields['location.lat']) != "undefined") ? obj.fields['location.lat'][0] : "",
-        "Longitud": (typeof(obj.fields['location.lon']) != "undefined") ? obj.fields['location.lon'][0] : "",
-        "Elevación mínima": (typeof(obj.fields['minimum_elevation']) != "undefined") ? obj.fields['minimum_elevation'][0] : "",
-        "Elevación máxima": (typeof(obj.fields['maximum_elevation']) != "undefined") ? obj.fields['maximum_elevation'][0] : "",
-        "Elevación literal": (typeof(obj.fields['verbatim_elevation']) != "undefined") ? obj.fields['verbatim_elevation'][0] : "",
-        "Hábitat": (typeof(obj.fields['habitat']) != "undefined") ? obj.fields['habitat'][0] : "",
-        "Fecha del evento": (typeof(obj.fields['eventdate_start']) != "undefined") ? obj.fields['eventdate_start'][0] : "",
-        "Código de la institución": (typeof(obj.fields['institution.code']) != "undefined") ? obj.fields['institution.code'][0] : "",
-        "Código de la colección": (typeof(obj.fields['collection.code']) != "undefined") ? obj.fields['collection.code'][0] : "",
-        "Nombre de la colección": (typeof(obj.fields['collection.name']) != "undefined") ? obj.fields['collection.name'][0] : "",
-        "Número de catálogo": (typeof(obj.fields['catalog.number']) != "undefined") ? obj.fields['catalog.number'][0] : "",
+        "Occurrence_id": (typeof(obj._source['occurrenceid']) != "undefined") ? obj._source['occurrenceid'][0] : "",
+        "Publicador de datos": (typeof(obj._source['provider.name']) != "undefined") ? obj.fi_sourceelds['provider.name'][0] : "",
+        "Base del registro": (typeof(obj._source['basis_of_record.name']) != "undefined") ? obj._source['basis_of_record.name'][0] : "",
+        "Conjunto de datos": (typeof(obj._source['resource.name']) != "undefined") ? obj._source['resource.name'][0] : "",
+        "Fecha de publicación": (typeof(obj._source['resource.publication_date']) != "undefined") ? obj._source['resource.publication_date'][0] : "",
+        "Nombre científico": (typeof(obj._source['canonical']) != "undefined") ? obj._source['canonical'][0] : "",
+        "Reino": (typeof(obj._source['taxonomy.kingdom_name']) != "undefined") ? obj._source['taxonomy.kingdom_name'][0] : "",
+        "Filo": (typeof(obj._source['taxonomy.phylum_name']) != "undefined") ? obj._source['taxonomy.phylum_name'][0] : "",
+        "Clase": (typeof(obj._source['taxonomy.class_name']) != "undefined") ? obj._source['taxonomy.class_name'][0] : "",
+        "Orden": (typeof(obj._source['taxonomy.order_name']) != "undefined") ? obj._source['taxonomy.order_name'][0] : "",
+        "Familia": (typeof(obj._source['taxonomy.family_name']) != "undefined") ? obj._source['taxonomy.family_name'][0] : "",
+        "Género": (typeof(obj._source['taxonomy.genus_name']) != "undefined") ? obj._source['taxonomy.genus_name'][0] : "",
+        "Especie": (typeof(obj._source['taxonomy.species_name']) != "undefined") ? obj._source['taxonomy.species_name'][0] : "",
+        "Epíteto específico": (typeof(obj._source['taxonomy.specific_epithet']) != "undefined") ? obj._source['taxonomy.specific_epithet'][0] : "",
+        "Epíteto infraespecífico": (typeof(obj._source['taxonomy.infraspecific_epithet']) != "undefined") ? obj._source['taxonomy.infraspecific_epithet'][0] : "",
+        "Categoría taxonómica": (typeof(obj._source['taxon_rank']) != "undefined") ? obj._source['taxon_rank'][0] : "",
+        "País": (typeof(obj._source['country_name']) != "undefined") ? obj._source['country_name'][0] : "",
+        "Departamento": (typeof(obj._source['department_name']) != "undefined") ? obj._source['department_name'][0] : "",
+        "Municipio": (typeof(obj._source['county_name']) != "undefined") ? obj._source['county_name'][0] : "",
+        "Localidad": (typeof(obj._source['locality']) != "undefined") ? obj._source['locality'][0] : "",
+        "Latitud": (typeof(obj._source['location.lat']) != "undefined") ? obj._source['location.lat'][0] : "",
+        "Longitud": (typeof(obj._source['location.lon']) != "undefined") ? obj._source['location.lon'][0] : "",
+        "Elevación mínima": (typeof(obj._source['minimum_elevation']) != "undefined") ? obj._source['minimum_elevation'][0] : "",
+        "Elevación máxima": (typeof(obj._source['maximum_elevation']) != "undefined") ? obj._source['maximum_elevation'][0] : "",
+        "Elevación literal": (typeof(obj._source['verbatim_elevation']) != "undefined") ? obj._source['verbatim_elevation'][0] : "",
+        "Hábitat": (typeof(obj._source['habitat']) != "undefined") ? obj._source['habitat'][0] : "",
+        "Fecha del evento": (typeof(obj._source['eventdate_start']) != "undefined") ? obj._source['eventdate_start'][0] : "",
+        "Código de la institución": (typeof(obj._source['institution.code']) != "undefined") ? obj._source['institution.code'][0] : "",
+        "Código de la colección": (typeof(obj._source['collection.code']) != "undefined") ? obj._source['collection.code'][0] : "",
+        "Nombre de la colección": (typeof(obj._source['collection.name']) != "undefined") ? obj._source['collection.name'][0] : "",
+        "Número de catálogo": (typeof(obj._source['catalog.number']) != "undefined") ? obj._source['catalog.number'][0] : "",
         "URL del portal de SIB Colombia": "http://datos.biodiversidad.co"
       };
     });
@@ -208,11 +208,11 @@ function processDownload(message) {
 
   rs.on("data", function(data) {
     totalRegisters++;
-    if(data.fields['resource.name']) {
-      dataSets[data.fields['resource.name'][0]] = {
-        "rights": (typeof(data.fields['resource.intellectual_rights']) != "undefined") ? data.fields['resource.intellectual_rights'][0] : "",
-        "id": (typeof(data.fields['resource.id']) != "undefined") ? data.fields['resource.id'][0] : "",
-        "citation": (typeof(data.fields['resource.citation']) != "undefined") ? data.fields['resource.citation'][0] : ""
+    if(data._source['resource.name']) {
+      dataSets[data._source['resource.name'][0]] = {
+        "rights": (typeof(data._source['resource.intellectual_rights']) != "undefined") ? data._source['resource.intellectual_rights'][0] : "",
+        "id": (typeof(data._source['resource.id']) != "undefined") ? data._source['resource.id'][0] : "",
+        "citation": (typeof(data._source['resource.citation']) != "undefined") ? data._source['resource.citation'][0] : ""
       }
     }
   });
@@ -248,7 +248,7 @@ function createQuery(queryType, conditions) {
   //console.log(conditions);
 
   var query = {
-    "stored_fields": [
+    "_source": [
       "provider.name",
       "resource.name",
       "resource.intellectual_rights",
